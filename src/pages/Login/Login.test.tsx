@@ -16,4 +16,9 @@ describe('Login', () => {
     ).toBeInTheDocument()
     expect(screen.getByPlaceholderText(/your Password/i)).toBeInTheDocument()
   })
+
+  it('renders a submit button', () => {
+    render(<Login />)
+    expect(screen.getByRole('button')).toBeInTheDocument()
+  })
 })
