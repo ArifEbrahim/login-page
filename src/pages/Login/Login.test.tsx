@@ -1,6 +1,6 @@
-import { render, screen, waitFor } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { describe, it, expect, vi } from 'vitest'
+import { describe, it, expect, vi, afterEach } from 'vitest'
 import Login from './index.tsx'
 import axios from 'axios'
 
@@ -11,7 +11,19 @@ vi.mock('react-router-dom', () => ({
   useNavigate: () => mockUseNavigate
 }))
 
+const getElements = () => {
+  const emailInput = screen.getByPlaceholderText(/your email address/i)
+  const passwordInput = screen.getByPlaceholderText(/your password/i)
+  const submitBtn = screen.getByRole('button', { name: /log in/i })
+
+  return { emailInput, passwordInput, submitBtn }
+}
+
 describe('Login', () => {
+  afterEach(() => {
+    vi.resetAllMocks()
+  })
+
   it('renders a header with the correct text', () => {
     render(<Login />)
     expect(screen.getByText(/log in./i)).toBeInTheDocument()
@@ -45,9 +57,8 @@ describe('Login', () => {
       }
     }
     render(<Login />)
-    const emailInput = screen.getByPlaceholderText(/your email address/i)
-    const passwordInput = screen.getByPlaceholderText(/your password/i)
-    const submitBtn = screen.getByRole('button', { name: /log in/i })
+
+    const { emailInput, passwordInput, submitBtn } = getElements()
 
     await user.type(emailInput, data.username)
     await user.type(passwordInput, data.password)
@@ -55,39 +66,50 @@ describe('Login', () => {
     expect(axios.post).toHaveBeenCalledWith(url, data, config)
   })
 
-  it('saves the token to localstorage', async () => {
+  it('saves the token to localStorage', async () => {
     Storage.prototype.setItem = vi.fn()
     axios.post = vi.fn().mockResolvedValue({ data: { access_token: '123' } })
     const user = userEvent.setup()
+
     render(<Login />)
-    const emailInput = screen.getByPlaceholderText(/your email address/i)
-    const passwordInput = screen.getByPlaceholderText(/your password/i)
-    const submitBtn = screen.getByRole('button', { name: /log in/i })
+
+    const { emailInput, passwordInput, submitBtn } = getElements()
 
     await user.type(emailInput, 'test@domain.com')
     await user.type(passwordInput, 'abc123')
     await user.click(submitBtn)
 
-    await waitFor(() => expect(axios.post).toHaveBeenCalled())
     expect(localStorage.setItem).toHaveBeenCalledWith('token', '123')
-    vi.clearAllMocks()
   })
 
   it('redirects the user to the Policy page when token successfuly recieved', async () => {
     Storage.prototype.setItem = vi.fn()
     axios.post = vi.fn().mockResolvedValue({ data: { access_token: '123' } })
     const user = userEvent.setup()
+
     render(<Login />)
-    const emailInput = screen.getByPlaceholderText(/your email address/i)
-    const passwordInput = screen.getByPlaceholderText(/your password/i)
-    const submitBtn = screen.getByRole('button', { name: /log in/i })
+
+    const { emailInput, passwordInput, submitBtn } = getElements()
 
     await user.type(emailInput, 'test@domain.com')
     await user.type(passwordInput, 'abc123')
     await user.click(submitBtn)
 
-    await waitFor(() => expect(axios.post).toHaveBeenCalled())
     expect(mockUseNavigate).toHaveBeenCalledWith('/policy')
-    vi.clearAllMocks()
+  })
+
+  it('does not store the token or redirect if no token available', async () => {
+    const user = userEvent.setup()
+
+    render(<Login />)
+
+    const { emailInput, passwordInput, submitBtn } = getElements()
+
+    await user.type(emailInput, 'test@domain.com')
+    await user.type(passwordInput, 'abc123')
+    await user.click(submitBtn)
+
+    expect(localStorage.setItem).not.toHaveBeenCalled()
+    expect(mockUseNavigate).not.toHaveBeenCalledWith('/policy')
   })
 })
