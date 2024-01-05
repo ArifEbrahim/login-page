@@ -18,7 +18,8 @@ function Login() {
       password,
       type: 'USER_PASSWORD_AUTH'
     }
-    await axios.post(URL, data, CONFIG)
+    const response = await axios.post(URL, data, CONFIG)
+    if (response) localStorage.setItem('token', response.data.access_token)
   }
 
   return (

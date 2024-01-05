@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { describe, it, expect, vi } from 'vitest'
 import Login from './index.tsx'
@@ -48,5 +48,23 @@ describe('Login', () => {
     await user.type(passwordInput, data.password)
     await user.click(submitBtn)
     expect(axios.post).toHaveBeenCalledWith(url, data, config)
+  })
+
+  it('saves the token to localstorage', async () => {
+    Storage.prototype.setItem = vi.fn()
+    axios.post = vi.fn().mockResolvedValue({ data: { access_token: '123' } })
+    const user = userEvent.setup()
+    render(<Login />)
+    const emailInput = screen.getByPlaceholderText(/your email address/i)
+    const passwordInput = screen.getByPlaceholderText(/your password/i)
+    const submitBtn = screen.getByRole('button', { name: /log in/i })
+
+    await user.type(emailInput, 'test@domain.com')
+    await user.type(passwordInput, 'abc123')
+    await user.click(submitBtn)
+
+    await waitFor(() => expect(axios.post).toHaveBeenCalled())
+    expect(localStorage.setItem).toHaveBeenCalledWith('token', '123')
+    vi.clearAllMocks()
   })
 })
