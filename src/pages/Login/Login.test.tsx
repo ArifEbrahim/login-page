@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { describe, it, expect, vi, afterEach } from 'vitest'
+import { describe, it, expect, vi, afterEach, beforeEach } from 'vitest'
 import Login from './index.tsx'
 import axios from 'axios'
 
@@ -20,6 +20,10 @@ const getElements = () => {
 }
 
 describe('Login', () => {
+  beforeEach(() => {
+    Storage.prototype.setItem = vi.fn()
+  })
+
   afterEach(() => {
     vi.resetAllMocks()
   })
@@ -67,7 +71,6 @@ describe('Login', () => {
   })
 
   it('saves the token to localStorage', async () => {
-    Storage.prototype.setItem = vi.fn()
     axios.post = vi.fn().mockResolvedValue({ data: { access_token: '123' } })
     const user = userEvent.setup()
 
@@ -83,7 +86,6 @@ describe('Login', () => {
   })
 
   it('redirects the user to the Policy page when token successfuly recieved', async () => {
-    Storage.prototype.setItem = vi.fn()
     axios.post = vi.fn().mockResolvedValue({ data: { access_token: '123' } })
     const user = userEvent.setup()
 
@@ -99,6 +101,22 @@ describe('Login', () => {
   })
 
   it('does not store the token or redirect if no token available', async () => {
+    const user = userEvent.setup()
+
+    render(<Login />)
+
+    const { emailInput, passwordInput, submitBtn } = getElements()
+
+    await user.type(emailInput, 'test@domain.com')
+    await user.type(passwordInput, 'abc123')
+    await user.click(submitBtn)
+
+    expect(localStorage.setItem).not.toHaveBeenCalled()
+    expect(mockUseNavigate).not.toHaveBeenCalledWith('/policy')
+  })
+
+  it('does not store the token or redirect on failed API response', async () => {
+    axios.post = vi.fn().mockRejectedValue('')
     const user = userEvent.setup()
 
     render(<Login />)
