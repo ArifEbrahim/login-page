@@ -1,9 +1,11 @@
 import { useState } from 'react'
 import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
 
 function Login() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const navigate = useNavigate()
   const URL = 'https://api.bybits.co.uk/auth/token'
   const CONFIG = {
     headers: {
@@ -19,7 +21,10 @@ function Login() {
       type: 'USER_PASSWORD_AUTH'
     }
     const response = await axios.post(URL, data, CONFIG)
-    if (response) localStorage.setItem('token', response.data.access_token)
+    if (response) {
+      localStorage.setItem('token', response.data.access_token)
+      navigate('/policy')
+    }
   }
 
   return (
