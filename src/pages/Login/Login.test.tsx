@@ -26,10 +26,27 @@ describe('Login', () => {
     expect(screen.getByRole('button', { name: /log in/i })).toBeInTheDocument()
   })
 
-  it('call axios on submit', () => {
-    render(<Login />)
+  it('calls axios on submit', async () => {
     const user = userEvent.setup()
-    user.click(screen.getByRole('button', { name: /log in/i }))
-    expect(axios.post).toHaveBeenCalled()
+    const url = 'https://api.bybits.co.uk/auth/token'
+    const data = {
+      username: 'test@domain.com',
+      password: 'abc123',
+      type: 'USER_PASSWORD_AUTH'
+    }
+    const config = {
+      headers: {
+        environment: 'mock'
+      }
+    }
+    render(<Login />)
+    const emailInput = screen.getByPlaceholderText(/your email address/i)
+    const passwordInput = screen.getByPlaceholderText(/your password/i)
+    const submitBtn = screen.getByRole('button', { name: /log in/i })
+
+    await user.type(emailInput, data.username)
+    await user.type(passwordInput, data.password)
+    await user.click(submitBtn)
+    expect(axios.post).toHaveBeenCalledWith(url, data, config)
   })
 })
