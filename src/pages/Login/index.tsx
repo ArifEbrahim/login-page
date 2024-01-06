@@ -1,9 +1,12 @@
 import { useState } from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
-import Input from '../../components/Input/input'
+import Input from '../../components/Input'
+import styles from './Login.module.css'
+import roadImage from '../../assets/road.png'
+import { FaArrowRight } from 'react-icons/fa'
 
-function Login() {
+export default function Login() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const navigate = useNavigate()
@@ -34,24 +37,34 @@ function Login() {
 
   return (
     <>
-      <div>Log in.</div>
-      <form onSubmit={handleSubmit}>
-        <Input
-          value={email}
-          onChange={setEmail}
-          placeholder="Your Email Address"
-          type="email"
-        />
-        <Input
-          value={password}
-          onChange={setPassword}
-          placeholder="Your Password"
-          type="password"
-        />
-        <button type="submit">Log in</button>
-      </form>
+      <div className={styles['login-container']}>
+        <div className={styles['image-container']}>
+          <img src={roadImage} />
+        </div>
+        <div className={styles['form-container']}>
+          <div className={styles['form-content']}>
+            <h1>Log in.</h1>
+            <form onSubmit={handleSubmit}>
+              <Input
+                value={email}
+                onChange={setEmail}
+                placeholder="Your Email Address"
+                type="email"
+              />
+              <Input
+                value={password}
+                onChange={setPassword}
+                placeholder="Your Password"
+                type="password"
+              />
+              <button type="submit">
+                <span>log in</span>
+                <FaArrowRight />
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
     </>
   )
 }
-
-export default Login
