@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
+import Input from '../../components/Input/input'
 
 function Login() {
   const [email, setEmail] = useState('')
@@ -35,20 +36,18 @@ function Login() {
     <>
       <div>Log in.</div>
       <form onSubmit={handleSubmit}>
-        <input
+        <Input
           value={email}
-          onChange={e => setEmail(e.target.value)}
+          onChange={setEmail}
           placeholder="Your Email Address"
           type="email"
-          required
-        ></input>
-        <input
+        />
+        <Input
           value={password}
-          onChange={e => setPassword(e.target.value)}
+          onChange={setPassword}
           placeholder="Your Password"
           type="password"
-          required
-        ></input>
+        />
         <button type="submit">Log in</button>
       </form>
     </>
