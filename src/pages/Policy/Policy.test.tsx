@@ -1,5 +1,5 @@
 import Policy from '.'
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import axios from 'axios'
 import { describe, it, expect, vi, afterEach } from 'vitest'
 
@@ -34,5 +34,16 @@ describe('Policy', () => {
     Storage.prototype.getItem = vi.fn()
     render(<Policy />)
     expect(screen.getByText(/loading.../i)).toBeInTheDocument()
+  })
+
+  it('displays content when data is received', () => {
+    Storage.prototype.getItem = vi.fn().mockReturnValue('Abc123')
+    axios.get = vi
+      .fn()
+      .mockResolvedValue({ data: { policy: { policy_ref: '123' } } })
+    render(<Policy />)
+    waitFor(() => {
+      expect(screen.getByText(/content/i)).toBeInTheDocument()
+    })
   })
 })

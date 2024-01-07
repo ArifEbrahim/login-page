@@ -1,10 +1,12 @@
 import axios from 'axios'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 function Policy() {
-  useEffect(() => {
+  const [policyData, setPolicyData] = useState({})
+  const isLoading = Object.keys(policyData).length === 0
+
+  const getAPIData = async () => {
     const token = localStorage.getItem('token')
-    console.log(token)
     if (token) {
       const URL = 'https://api.bybits.co.uk/policys/details'
       const config = {
@@ -14,11 +16,16 @@ function Policy() {
         }
       }
 
-      axios.get(URL, config)
+      const response = await axios.get(URL, config)
+      setPolicyData(response?.data?.policy)
     }
-  })
+  }
 
-  return <div>Loading...</div>
+  useEffect(() => {
+    getAPIData()
+  }, [])
+
+  return isLoading ? <div>Loading...</div> : <div>content</div>
 }
 
 export default Policy
