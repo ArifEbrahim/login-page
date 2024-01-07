@@ -43,7 +43,11 @@ describe('Policy', () => {
       .mockResolvedValue({ data: { policy: { policy_ref: '123' } } })
     render(<Policy />)
     waitFor(() => {
+      expect(screen.getByText(/my policy/i)).toBeInTheDocument()
       expect(screen.getByText(/content/i)).toBeInTheDocument()
+      expect(
+        screen.getByRole('button', { name: /sign out/i })
+      ).toBeInTheDocument()
     })
   })
 })

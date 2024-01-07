@@ -25,7 +25,19 @@ function Policy() {
     getAPIData()
   }, [])
 
-  return isLoading ? <div>Loading...</div> : <div>content</div>
+  return (
+    <>
+      {isLoading ? (
+        <div>Loading...</div>
+      ) : (
+        <>
+          <h1>My Policy</h1>
+          <div>content</div>
+          <button>Sign out</button>
+        </>
+      )}
+    </>
+  )
 }
 
 export default Policy
