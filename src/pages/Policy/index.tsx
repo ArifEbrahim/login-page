@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { useEffect, useState } from 'react'
+import PolicyContent from './PolicyContent'
 
 function Policy() {
   const [policyData, setPolicyData] = useState({})
@@ -32,7 +33,7 @@ function Policy() {
       ) : (
         <>
           <h1>My Policy</h1>
-          <div>content</div>
+          <PolicyContent />
           <button>Sign out</button>
         </>
       )}

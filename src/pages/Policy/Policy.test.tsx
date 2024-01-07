@@ -5,6 +5,8 @@ import { describe, it, expect, vi, afterEach } from 'vitest'
 
 vi.mock('axios')
 
+vi.mock('./PolicyContent', () => <div>content</div>)
+
 describe('Policy', () => {
   afterEach(() => {
     vi.resetAllMocks()
@@ -38,9 +40,7 @@ describe('Policy', () => {
 
   it('displays content when data is received', () => {
     Storage.prototype.getItem = vi.fn().mockReturnValue('Abc123')
-    axios.get = vi
-      .fn()
-      .mockResolvedValue({ data: { policy: { policy_ref: '123' } } })
+    axios.get = vi.fn().mockResolvedValue({ data: { policy: '' } })
     render(<Policy />)
     waitFor(() => {
       expect(screen.getByText(/my policy/i)).toBeInTheDocument()
