@@ -15,7 +15,7 @@ function Policy() {
     axios.get(URL, config)
   })
 
-  return <div>policy</div>
+  return <div>Loading...</div>
 }
 
 export default Policy

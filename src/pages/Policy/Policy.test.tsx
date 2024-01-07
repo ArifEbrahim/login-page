@@ -19,4 +19,10 @@ describe('Policy', () => {
     render(<Policy />)
     expect(axios.get).toHaveBeenCalledWith(url, config)
   })
+
+  it('displays a loading screen whilst waiting for data', () => {
+    Storage.prototype.getItem = vi.fn()
+    render(<Policy />)
+    expect(screen.getByText(/loading.../i)).toBeInTheDocument()
+  })
 })
