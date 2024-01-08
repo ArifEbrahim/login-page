@@ -5,7 +5,9 @@ import { describe, it, expect, vi, afterEach } from 'vitest'
 import userEvent from '@testing-library/user-event'
 
 vi.mock('axios')
-vi.mock('./PolicyContent', () => <div>content</div>)
+vi.mock('./PolicyContent', () => ({
+  default: () => <div>content</div>
+}))
 const mockUseNavigate = vi.fn()
 vi.mock('react-router-dom', () => ({
   ...vi.importActual('react-router-dom'),
@@ -43,30 +45,31 @@ describe('Policy', () => {
     expect(screen.getByText(/loading.../i)).toBeInTheDocument()
   })
 
-  it('displays content when data is received', () => {
+  it('displays content when data is received', async () => {
     Storage.prototype.getItem = vi.fn().mockReturnValue('Abc123')
     axios.get = vi.fn().mockResolvedValue({ data: { policy: { test: '123' } } })
     render(<Policy />)
-    waitFor(() => {
-      expect(screen.getByText(/my policy/i)).toBeInTheDocument()
-      expect(screen.getByText(/content/i)).toBeInTheDocument()
-      expect(
-        screen.getByRole('button', { name: /sign out/i })
-      ).toBeInTheDocument()
+    await waitFor(() => {
+      expect(axios.get).toHaveBeenCalled()
     })
+    expect(await screen.findByText(/my policy/i)).toBeInTheDocument()
+    expect(await screen.findByText(/content/i)).toBeInTheDocument()
+    expect(
+      await screen.findByRole('button', { name: /sign out/i })
+    ).toBeInTheDocument()
   })
 
-  it.only('clears local storage and redirects user when sign out clicked', async () => {
+  it('clears local storage and redirects user when sign out clicked', async () => {
     Storage.prototype.clear = vi.fn()
     const user = userEvent.setup()
     Storage.prototype.getItem = vi.fn().mockReturnValue('Abc123')
     axios.get = vi.fn().mockResolvedValue({ data: { policy: { test: '123' } } })
     render(<Policy />)
-    waitFor(() => {
-      expect(screen.getByText(/loading.../i)).not.toBeInTheDocument()
+    await waitFor(() => {
+      expect(screen.queryByText(/loading.../i)).not.toBeInTheDocument()
     })
     await user.click(screen.getByRole('button', { name: /sign out/i }))
     expect(localStorage.clear).toHaveBeenCalled()
-    expect(mockUseNavigate).not.toHaveBeenCalledWith('/')
+    expect(mockUseNavigate).toHaveBeenCalledWith('/')
   })
 })
