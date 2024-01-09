@@ -30,6 +30,7 @@ describe('Login', () => {
 
   it('renders a header with the correct text', () => {
     render(<Login />)
+
     expect(screen.getByText(/log in./i)).toBeInTheDocument()
   })
 
@@ -44,6 +45,7 @@ describe('Login', () => {
 
   it('renders a submit button', () => {
     render(<Login />)
+
     expect(screen.getByRole('button', { name: /log in/i })).toBeInTheDocument()
   })
 
@@ -63,7 +65,6 @@ describe('Login', () => {
     render(<Login />)
 
     const { emailInput, passwordInput, submitBtn } = getElements()
-
     await user.type(emailInput, data.username)
     await user.type(passwordInput, data.password)
     await user.click(submitBtn)
@@ -73,7 +74,6 @@ describe('Login', () => {
   it('saves the token to localStorage', async () => {
     axios.post = vi.fn().mockResolvedValue({ data: { access_token: '123' } })
     const user = userEvent.setup()
-
     render(<Login />)
 
     const { emailInput, passwordInput, submitBtn } = getElements()
@@ -88,7 +88,6 @@ describe('Login', () => {
   it('redirects the user to the Policy page when token successfuly recieved', async () => {
     axios.post = vi.fn().mockResolvedValue({ data: { access_token: '123' } })
     const user = userEvent.setup()
-
     render(<Login />)
 
     const { emailInput, passwordInput, submitBtn } = getElements()
@@ -102,7 +101,6 @@ describe('Login', () => {
 
   it('does not store the token or redirect if no token available', async () => {
     const user = userEvent.setup()
-
     render(<Login />)
 
     const { emailInput, passwordInput, submitBtn } = getElements()
@@ -118,7 +116,6 @@ describe('Login', () => {
   it('does not store the token or redirect on failed API response', async () => {
     axios.post = vi.fn().mockRejectedValue('')
     const user = userEvent.setup()
-
     render(<Login />)
 
     const { emailInput, passwordInput, submitBtn } = getElements()
@@ -133,7 +130,6 @@ describe('Login', () => {
 
   it('does not allow submission with invalid input', async () => {
     const user = userEvent.setup()
-
     render(<Login />)
 
     const { emailInput, passwordInput, submitBtn } = getElements()

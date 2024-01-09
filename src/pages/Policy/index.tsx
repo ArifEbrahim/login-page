@@ -40,7 +40,7 @@ function Policy() {
       ) : (
         <>
           <h1>My Policy</h1>
-          <PolicyContent data={policyData} />
+          <PolicyContent {...policyData} />
           <button onClick={handleClick}>Sign out</button>
         </>
       )}

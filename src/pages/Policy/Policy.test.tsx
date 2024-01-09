@@ -1,7 +1,7 @@
 import Policy from '.'
 import { render, screen, waitFor } from '@testing-library/react'
 import axios from 'axios'
-import { describe, it, expect, vi, afterEach } from 'vitest'
+import { describe, it, expect, vi, afterEach, beforeEach } from 'vitest'
 import userEvent from '@testing-library/user-event'
 
 vi.mock('axios')
@@ -19,57 +19,67 @@ describe('Policy', () => {
     vi.resetAllMocks()
   })
 
-  it('calls the API on render with correct data', () => {
-    Storage.prototype.getItem = vi.fn().mockReturnValue('Abc123')
-    const url = 'https://api.bybits.co.uk/policys/details'
-    const config = {
-      headers: {
-        environment: 'mock',
-        Authorization: 'Bearer Abc123'
+  describe('when data is not available', () => {
+    it('does not call the API if no token', () => {
+      Storage.prototype.getItem = vi.fn()
+      render(<Policy />)
+
+      expect(axios.get).not.toHaveBeenCalled()
+    })
+
+    it('displays a loading screen whilst waiting for data', () => {
+      Storage.prototype.getItem = vi.fn()
+      render(<Policy />)
+
+      expect(screen.getByText(/loading.../i)).toBeInTheDocument()
+    })
+  })
+
+  describe('when data is available', () => {
+    beforeEach(() => {
+      Storage.prototype.getItem = vi.fn().mockReturnValue('Abc123')
+      axios.get = vi
+        .fn()
+        .mockResolvedValue({ data: { policy: { test: '123' } } })
+    })
+
+    it('calls the API on render with correct data', () => {
+      const url = 'https://api.bybits.co.uk/policys/details'
+      const config = {
+        headers: {
+          environment: 'mock',
+          Authorization: 'Bearer Abc123'
+        }
       }
-    }
+      render(<Policy />)
 
-    render(<Policy />)
-    expect(axios.get).toHaveBeenCalledWith(url, config)
-  })
-
-  it('does not call the API if no token', () => {
-    Storage.prototype.getItem = vi.fn()
-    render(<Policy />)
-    expect(axios.get).not.toHaveBeenCalled()
-  })
-
-  it('displays a loading screen whilst waiting for data', () => {
-    Storage.prototype.getItem = vi.fn()
-    render(<Policy />)
-    expect(screen.getByText(/loading.../i)).toBeInTheDocument()
-  })
-
-  it('displays content when data is received', async () => {
-    Storage.prototype.getItem = vi.fn().mockReturnValue('Abc123')
-    axios.get = vi.fn().mockResolvedValue({ data: { policy: { test: '123' } } })
-    render(<Policy />)
-    await waitFor(() => {
-      expect(axios.get).toHaveBeenCalled()
+      expect(axios.get).toHaveBeenCalledWith(url, config)
     })
-    expect(await screen.findByText(/my policy/i)).toBeInTheDocument()
-    expect(await screen.findByText(/content/i)).toBeInTheDocument()
-    expect(
-      await screen.findByRole('button', { name: /sign out/i })
-    ).toBeInTheDocument()
-  })
 
-  it('clears local storage and redirects user when sign out clicked', async () => {
-    Storage.prototype.clear = vi.fn()
-    const user = userEvent.setup()
-    Storage.prototype.getItem = vi.fn().mockReturnValue('Abc123')
-    axios.get = vi.fn().mockResolvedValue({ data: { policy: { test: '123' } } })
-    render(<Policy />)
-    await waitFor(() => {
-      expect(screen.queryByText(/loading.../i)).not.toBeInTheDocument()
+    it('displays content when data is received', async () => {
+      render(<Policy />)
+
+      await waitFor(() => {
+        expect(axios.get).toHaveBeenCalled()
+      })
+      expect(await screen.findByText(/my policy/i)).toBeInTheDocument()
+      expect(await screen.findByText(/content/i)).toBeInTheDocument()
+      expect(
+        await screen.findByRole('button', { name: /sign out/i })
+      ).toBeInTheDocument()
     })
-    await user.click(screen.getByRole('button', { name: /sign out/i }))
-    expect(localStorage.clear).toHaveBeenCalled()
-    expect(mockUseNavigate).toHaveBeenCalledWith('/')
+
+    it('clears local storage and redirects user when sign out clicked', async () => {
+      Storage.prototype.clear = vi.fn()
+      const user = userEvent.setup()
+      render(<Policy />)
+
+      await waitFor(() => {
+        expect(screen.queryByText(/loading.../i)).not.toBeInTheDocument()
+      })
+      await user.click(screen.getByRole('button', { name: /sign out/i }))
+      expect(localStorage.clear).toHaveBeenCalled()
+      expect(mockUseNavigate).toHaveBeenCalledWith('/')
+    })
   })
 })
