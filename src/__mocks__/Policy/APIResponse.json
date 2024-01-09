@@ -1,0 +1,189 @@
+{
+  "policy_reference": "apple-orange-pear",
+  "policy_version_reference": "f3857527-27bc-4738-8e69-975d1e5a6d88",
+  "policy": {
+    "compulsory_excess": 100,
+    "voluntary_excess": 100,
+    "address": {
+      "line_1": "Flat 1, 11 The Street",
+      "line_2": "Little Hampton",
+      "line_3": "Burton-on-the-water",
+      "county": "Avon",
+      "city": "Stroud",
+      "country": "GB",
+      "postcode": "W53TR"
+    },
+    "usage": "SDP",
+    "cover": "Comprehensive",
+    "auto_renew": true,
+    "start_date": 1599567165,
+    "end_date": 1599567165,
+    "billing_day_date": 21,
+    "underwriter_reference": "zurich",
+    "underwriter_policy_reference": "AXABM000001",
+    "product_reference": "pay-by-mile",
+    "created_at": 1599567165,
+    "policy_reference": "apple-orange-pear"
+  },
+  "proposer": {
+    "title": "003",
+    "first_names": "Dave",
+    "last_names": "Jones",
+    "email": "dave@jones.com",
+    "phone_number": "+447999000011",
+    "children": 1,
+    "has_medical_conditions": true,
+    "has_informed_dvla_medical_conditions": false,
+    "ncd": 1,
+    "dob": "1980-12-31",
+    "licence_type": "F",
+    "employment": "E",
+    "occupation": "51D",
+    "business": "077",
+    "licence_issued_date": "2000-12-31",
+    "residency_date": "2000-12-31",
+    "has_criminal_conviction": false,
+    "convictions": [
+      {
+        "code": "AC10",
+        "date": "2018-01-01",
+        "points": 3,
+        "ban": 0
+      }
+    ],
+    "claims": [
+      {
+        "code": "A",
+        "date": "2016-01-01",
+        "at_fault": false,
+        "ncd_lost": false
+      }
+    ],
+    "own_home": false
+  },
+  "vehicle": {
+    "reg": "WO123XX",
+    "vin": "YV1UZ25UCK1337428",
+    "type": "01",
+    "make": "Tesla",
+    "model": "S",
+    "colour": "black",
+    "rating": 21,
+    "group_rating_50": 21,
+    "group_rating_20": 10,
+    "abi_code": "01001000",
+    "engine": 1650,
+    "fuel": "001",
+    "owner": "1",
+    "keeper": "1",
+    "estimated_yearly_mileage": 10000,
+    "purchase_date": "2016-01-01",
+    "manufacture_date": "2016-01-01",
+    "current_value": 1000,
+    "is_rhd": true,
+    "seats": 5,
+    "doors": 3,
+    "is_parked_home": true,
+    "is_import": true,
+    "overnight_postcode": "SW1 5BB",
+    "parked_location": "Garage"
+  },
+  "versions": [
+    {
+      "policy_reference": "apple-orange-pear",
+      "policy_version_reference": "adbce-23456-fghij-78901",
+      "product_reference": "by_bits_motor_policy",
+      "quote_reference": "36c575d2-b6b9-44ed-9c75-3d705b987ec1",
+      "quote_version_reference": "46c575d2-b6b9-44ed-9c75-4d705b987ec1",
+      "quote_model_reference": "56c575d2-b6b9-44ed-9c75-5d705b987ec1",
+      "usage": "SDP",
+      "email": "dave@jones.com",
+      "vehicle_reg": "WO123XX",
+      "proposer_first_names": "Dave",
+      "proposer_last_names": "Jones",
+      "address_postcode": "W53TR",
+      "upfront_rate": 100,
+      "upfront_premium": 10.41,
+      "subscription_rate": 20,
+      "subscription_premium": 23.44,
+      "usage_rate": 0.04,
+      "usage_premium": 10.04,
+      "ipt_rate": 12,
+      "commission_rate": 15,
+      "version_type": "nb",
+      "inception_date": 1599567165,
+      "effective_date": 1599567165,
+      "start_date": 1599567165,
+      "end_date": 1599567165,
+      "created_at": 1599567165
+    }
+  ],
+  "additional_drivers": [
+    {
+      "relationship": "P",
+      "title": "003",
+      "first_names": "Dave",
+      "last_names": "Jones",
+      "email": "dave@jones.com",
+      "phone_number": "+447999000011",
+      "children": 1,
+      "has_medical_conditions": true,
+      "has_informed_dvla_medical_conditions": false,
+      "ncd": 1,
+      "dob": "1980-12-31",
+      "licence_type": "F",
+      "employment": "E",
+      "occupation": "51D",
+      "business": "077",
+      "licence_issued_date": "2000-12-31",
+      "residency_date": "2000-12-31",
+      "has_criminal_conviction": false,
+      "convictions": [
+        {
+          "code": "AC10",
+          "date": "2018-01-01",
+          "points": 3,
+          "ban": 0
+        }
+      ],
+      "claims": [
+        {
+          "code": "A",
+          "date": "2016-01-01",
+          "at_fault": false,
+          "ncd_lost": false
+        }
+      ],
+      "own_home": false
+    }
+  ],
+  "pricing": {
+    "upfront_rate": 100,
+    "subscription_rate": 20,
+    "usage_rate": 0.04,
+    "subscription_installments": 12,
+    "quote_reference": "36c575d2-b6b9-44ed-9c75-3d705b987ec1",
+    "quote_version_reference": "46c575d2-b6b9-44ed-9c75-4d705b987ec1",
+    "withhold_fee": 50,
+    "deposit_fee": 50,
+    "admin_fee": 60,
+    "mta_fee": 20,
+    "cancel_fee": 50,
+    "ipt_rate": 12,
+    "commission_rate": 15
+  },
+  "payment": {
+    "payment_provider": "stripe",
+    "payment_amount": 11.1,
+    "provider_payment_reference": "ch_1D43OnCaJQof123dv1ChMMrT",
+    "provider_customer_reference": "ch_1D43OnCaJQof123dv1ChMMrT"
+  },
+  "payments": [
+    {
+      "payment_provider": "stripe",
+      "payment_amount": 11.1,
+      "provider_payment_reference": "ch_1D43OnCaJQof123dv1ChMMrT",
+      "provider_customer_reference": "ch_1D43OnCaJQof123dv1ChMMrT"
+    }
+  ]
+}
