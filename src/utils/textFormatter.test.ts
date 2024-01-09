@@ -8,4 +8,13 @@ describe('TextFormatter', () => {
   it('stores the policy object', () => {
     expect(formatter.rawPolicy).toBe(mockAPIResponse)
   })
+
+  it('returns an object of formatted data', () => {
+    const data = formatter.processData()
+    expect(data.policy_ref).toBe('apple orange pear')
+    expect(data.coverType).toBe('Comprehensive')
+    expect(data.car).toBe('Tesla S black - WO123XX')
+    expect(data.name).toBe('Dave Jones')
+    expect(data.address).toBe('Flat 1, 11 The Street, Little Hampton, W53TR')
+  })
 })
