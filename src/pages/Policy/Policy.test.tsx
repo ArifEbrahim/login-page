@@ -1,12 +1,18 @@
 import Policy from '.'
-import { render, screen, waitFor } from '@testing-library/react'
+import { render, screen, waitFor, within } from '@testing-library/react'
 import axios from 'axios'
 import { describe, it, expect, vi, afterEach, beforeEach } from 'vitest'
 import userEvent from '@testing-library/user-event'
+import mockAPIData from '../../__mocks__/Policy/APIResponse.json'
+import { PolicyContentProps } from '../../types/Policy'
 
 vi.mock('axios')
 vi.mock('./PolicyContent', () => ({
-  default: () => <div>content</div>
+  default: (props: PolicyContentProps) => (
+    <div data-testid="policy-content">
+      {<pre>{JSON.stringify(props, null, 2)}</pre>}
+    </div>
+  )
 }))
 const mockUseNavigate = vi.fn()
 vi.mock('react-router-dom', () => ({
@@ -63,7 +69,6 @@ describe('Policy', () => {
         expect(axios.get).toHaveBeenCalled()
       })
       expect(await screen.findByText(/my policy/i)).toBeInTheDocument()
-      expect(await screen.findByText(/content/i)).toBeInTheDocument()
       expect(
         await screen.findByRole('button', { name: /sign out/i })
       ).toBeInTheDocument()
@@ -81,5 +86,17 @@ describe('Policy', () => {
       expect(localStorage.clear).toHaveBeenCalled()
       expect(mockUseNavigate).toHaveBeenCalledWith('/')
     })
+  })
+
+  it('calls PolicyContent with the right props', async () => {
+    Storage.prototype.getItem = vi.fn().mockReturnValue('Abc123')
+    axios.get = vi.fn().mockResolvedValue({ data: { policy: mockAPIData } })
+    render(<Policy />)
+    await waitFor(() => {
+      expect(axios.get).toHaveBeenCalled()
+    })
+    const content = screen.getByTestId('policy-content')
+    expect(content).toBeInTheDocument()
+    expect(within(content).getByText('policy_ref')).toBeInTheDocument()
   })
 })

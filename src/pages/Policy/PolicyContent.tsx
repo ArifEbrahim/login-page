@@ -1,12 +1,4 @@
-interface FormattedPolicyData {
-  policyRef: string
-  coverType: string
-  car: string
-  name: string
-  address: string
-}
-
-type PolicyContentProps = FormattedPolicyData | Record<string, never>
+import { PolicyContentProps } from '../../types/Policy'
 
 function PolicyContent({
   policyRef,

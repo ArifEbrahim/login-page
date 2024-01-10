@@ -191,3 +191,13 @@ export interface Payment {
   provider_payment_reference: string
   provider_customer_reference: string
 }
+
+interface FormattedPolicyData {
+  policyRef: string
+  coverType: string
+  car: string
+  name: string
+  address: string
+}
+
+export type PolicyContentProps = FormattedPolicyData | Record<string, never>

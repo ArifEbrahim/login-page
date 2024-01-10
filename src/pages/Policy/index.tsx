@@ -2,11 +2,13 @@ import axios from 'axios'
 import { useEffect, useState } from 'react'
 import PolicyContent from './PolicyContent'
 import { useNavigate } from 'react-router-dom'
+import TextFormatter from '../../utils/textFormatter'
 
 function Policy() {
   const [policyData, setPolicyData] = useState({})
   const isLoading = Object.keys(policyData).length === 0
   const navigate = useNavigate()
+  console.log({ isLoading })
 
   const handleClick = () => {
     localStorage.clear()
@@ -26,7 +28,9 @@ function Policy() {
         }
 
         const response = await axios.get(URL, config)
-        setPolicyData(response?.data?.policy)
+        const formatter = new TextFormatter(response.data.policy)
+        const data = formatter.processData()
+        setPolicyData(data)
       }
     }
 
