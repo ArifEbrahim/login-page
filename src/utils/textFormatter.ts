@@ -13,7 +13,7 @@ export default class TextFormatter {
 
   processData() {
     return {
-      policy_ref: this.formatPolicyRef(),
+      policyRef: this.formatPolicyRef(),
       coverType: this._rawPolicy.policy.cover,
       car: this.formatCar(),
       name: this.formatName(),
