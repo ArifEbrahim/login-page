@@ -11,7 +11,7 @@ describe('TextFormatter', () => {
 
   it('returns an object of formatted data', () => {
     const data = formatter.processData()
-    expect(data.policy_ref).toBe('apple orange pear')
+    expect(data.policyRef).toBe('apple orange pear')
     expect(data.coverType).toBe('Comprehensive')
     expect(data.car).toBe('Tesla S black - WO123XX')
     expect(data.name).toBe('Dave Jones')
