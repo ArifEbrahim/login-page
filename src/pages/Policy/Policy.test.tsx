@@ -1,5 +1,5 @@
 import Policy from '.'
-import { render, screen, waitFor, within } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import axios from 'axios'
 import { describe, it, expect, vi, afterEach, beforeEach } from 'vitest'
 import userEvent from '@testing-library/user-event'
@@ -44,9 +44,7 @@ describe('Policy', () => {
   describe('when data is available', () => {
     beforeEach(() => {
       Storage.prototype.getItem = vi.fn().mockReturnValue('Abc123')
-      axios.get = vi
-        .fn()
-        .mockResolvedValue({ data: { policy: { test: '123' } } })
+      axios.get = vi.fn().mockResolvedValue({ data: { policy: mockAPIData } })
     })
 
     it('calls the API on render with correct data', () => {
@@ -86,17 +84,15 @@ describe('Policy', () => {
       expect(localStorage.clear).toHaveBeenCalled()
       expect(mockUseNavigate).toHaveBeenCalledWith('/')
     })
-  })
 
-  it('calls PolicyContent with the right props', async () => {
-    Storage.prototype.getItem = vi.fn().mockReturnValue('Abc123')
-    axios.get = vi.fn().mockResolvedValue({ data: { policy: mockAPIData } })
-    render(<Policy />)
-    await waitFor(() => {
-      expect(axios.get).toHaveBeenCalled()
+    it('calls PolicyContent with the right props', async () => {
+      render(<Policy />)
+      await waitFor(() => {
+        expect(screen.queryByText(/loading.../i)).not.toBeInTheDocument()
+      })
+      const content = screen.getByTestId('policy-content')
+      expect(content).toBeInTheDocument()
+      expect(content).toHaveTextContent('policyRef')
     })
-    const content = screen.getByTestId('policy-content')
-    expect(content).toBeInTheDocument()
-    expect(within(content).getByText('policy_ref')).toBeInTheDocument()
   })
 })

@@ -8,7 +8,6 @@ function Policy() {
   const [policyData, setPolicyData] = useState({})
   const isLoading = Object.keys(policyData).length === 0
   const navigate = useNavigate()
-  console.log({ isLoading })
 
   const handleClick = () => {
     localStorage.clear()
@@ -27,10 +26,11 @@ function Policy() {
           }
         }
 
-        const response = await axios.get(URL, config)
-        const formatter = new TextFormatter(response.data.policy)
-        const data = formatter.processData()
-        setPolicyData(data)
+        await axios.get(URL, config).then(response => {
+          const formatter = new TextFormatter(response.data.policy)
+          const data = formatter.processData()
+          setPolicyData(data)
+        })
       }
     }
 
