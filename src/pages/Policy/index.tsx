@@ -27,7 +27,7 @@ function Policy() {
         }
 
         await axios.get(URL, config).then(response => {
-          const formatter = new TextFormatter(response.data.policy)
+          const formatter = new TextFormatter(response.data)
           const data = formatter.processData()
           setPolicyData(data)
         })

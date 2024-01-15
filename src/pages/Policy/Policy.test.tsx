@@ -44,7 +44,7 @@ describe('Policy', () => {
   describe('when data is available', () => {
     beforeEach(() => {
       Storage.prototype.getItem = vi.fn().mockReturnValue('Abc123')
-      axios.get = vi.fn().mockResolvedValue({ data: { policy: mockAPIData } })
+      axios.get = vi.fn().mockResolvedValue({ data: mockAPIData })
     })
 
     it('calls the API on render with correct data', () => {
