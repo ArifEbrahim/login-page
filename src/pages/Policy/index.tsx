@@ -6,6 +6,7 @@ import TextFormatter from '../../utils/textFormatter'
 import styles from './Policy.module.css'
 import Heading from '../../components/Heading'
 import Button from '../../components/Button'
+import { PiSignOutBold } from 'react-icons/pi'
 
 function Policy() {
   const [policyData, setPolicyData] = useState({})
@@ -50,7 +51,10 @@ function Policy() {
             <section className={styles['policy-section']}>
               <Heading text="My Policy" />
               <PolicyContent {...policyData} />
-              <Button onClick={handleClick}>Sign out</Button>
+              <Button onClick={handleClick}>
+                <span>Sign out</span>
+                <PiSignOutBold />
+              </Button>
             </section>
           </div>
         </>

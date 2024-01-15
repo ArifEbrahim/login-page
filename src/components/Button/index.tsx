@@ -1,3 +1,5 @@
+import './Button.module.css'
+
 interface ButtonProps {
   onClick?: () => void
   type?: 'button' | 'submit' | 'reset' | undefined

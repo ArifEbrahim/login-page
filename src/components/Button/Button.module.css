@@ -1,0 +1,27 @@
+button {
+  background: rgb(39, 214, 255);
+  border-radius: 4px;
+  user-select: none;
+  text-decoration: none;
+  outline: none;
+  border: none;
+  width: 100%;
+  padding: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: rgb(50, 11, 66);
+  cursor: pointer;
+}
+
+button:hover {
+  background: rgb(6, 192, 236);
+}
+
+button span {
+  font-weight: bold;
+  font-size: 14px;
+  text-transform: uppercase;
+  line-height: 16px;
+  letter-spacing: 1.2px;
+}

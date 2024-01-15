@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import Input from '../../components/Input'
 import styles from './Login.module.css'
 import roadImage from '../../assets/road.png'
-import { FaArrowRight } from 'react-icons/fa'
+import { PiSignInBold } from 'react-icons/pi'
 import Heading from '../../components/Heading'
 import Button from '../../components/Button'
 
@@ -59,10 +59,10 @@ export default function Login() {
                 placeholder="Your Password"
                 type="password"
               />
-              <button type="submit">
+              <Button type="submit">
                 <span>log in</span>
-                <FaArrowRight />
-              </button>
+                <PiSignInBold />
+              </Button>
             </form>
           </div>
         </div>
