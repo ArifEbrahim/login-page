@@ -3,6 +3,9 @@ import { useEffect, useState } from 'react'
 import PolicyContent from './PolicyContent'
 import { useNavigate } from 'react-router-dom'
 import TextFormatter from '../../utils/textFormatter'
+import styles from './Policy.module.css'
+import Heading from '../../components/Heading'
+import Button from '../../components/Button'
 
 function Policy() {
   const [policyData, setPolicyData] = useState({})
@@ -43,9 +46,13 @@ function Policy() {
         <div>Loading...</div>
       ) : (
         <>
-          <h1>My Policy</h1>
-          <PolicyContent {...policyData} />
-          <button onClick={handleClick}>Sign out</button>
+          <div className={styles['policy-container']}>
+            <section className={styles['policy-section']}>
+              <Heading text="My Policy" />
+              <PolicyContent {...policyData} />
+              <Button onClick={handleClick}>Sign out</Button>
+            </section>
+          </div>
         </>
       )}
     </>

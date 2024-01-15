@@ -1,0 +1,12 @@
+.policy-container{
+  width: 525px;
+  height: 620px;
+  border-radius: 8px;
+  margin: calc((100vh - 620px) / 2) auto;
+  background-color: #fff;
+  border: 1px solid red;
+}
+
+.policy-section{
+  margin: 0 70px;
+}

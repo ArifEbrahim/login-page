@@ -3,9 +3,9 @@ import { render, screen } from '@testing-library/react'
 import { describe, it, expect, vi } from 'vitest'
 import userEvent from '@testing-library/user-event'
 
-const mockOnChange = vi.fn()
-
 describe('Input', () => {
+  const mockOnChange = vi.fn()
+
   it('has a placeholder and type', () => {
     render(
       <Input type="email" placeholder="enter email" onChange={mockOnChange} />

@@ -5,6 +5,8 @@ import Input from '../../components/Input'
 import styles from './Login.module.css'
 import roadImage from '../../assets/road.png'
 import { FaArrowRight } from 'react-icons/fa'
+import Heading from '../../components/Heading'
+import Button from '../../components/Button'
 
 export default function Login() {
   const [email, setEmail] = useState('')
@@ -43,7 +45,7 @@ export default function Login() {
         </div>
         <div className={styles['form-container']}>
           <div className={styles['form-content']}>
-            <h1>Log in.</h1>
+            <Heading text="Log in." />
             <form onSubmit={handleSubmit}>
               <Input
                 value={email}
