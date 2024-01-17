@@ -7,10 +7,11 @@ import styles from './Policy.module.css'
 import Heading from '../../components/Heading'
 import Button from '../../components/Button'
 import { PiSignOutBold } from 'react-icons/pi'
+import Loader from '../../components/Loader'
 
 function Policy() {
   const [policyData, setPolicyData] = useState({})
-  const isLoading = Object.keys(policyData).length === 0
+  const [isLoading, setIsLoading] = useState<boolean>(false)
   const navigate = useNavigate()
 
   const handleClick = () => {
@@ -20,21 +21,28 @@ function Policy() {
 
   useEffect(() => {
     const getAPIData = async () => {
-      const token = localStorage.getItem('token')
-      if (token) {
-        const URL = 'https://api.bybits.co.uk/policys/details'
-        const config = {
-          headers: {
-            environment: 'mock',
-            Authorization: `Bearer ${token}`
+      try {
+        setIsLoading(true)
+        const token = localStorage.getItem('token')
+        if (token) {
+          const URL = 'https://api.bybits.co.uk/policys/details'
+          const config = {
+            headers: {
+              environment: 'mock',
+              Authorization: `Bearer ${token}`
+            }
           }
-        }
 
-        await axios.get(URL, config).then(response => {
-          const formatter = new TextFormatter(response.data)
-          const data = formatter.processData()
-          setPolicyData(data)
-        })
+          await axios.get(URL, config).then(response => {
+            const formatter = new TextFormatter(response.data)
+            const data = formatter.processData()
+            setPolicyData(data)
+          })
+        }
+      } catch (error) {
+        console.log(error)
+      } finally {
+        setIsLoading(false)
       }
     }
 
@@ -44,7 +52,7 @@ function Policy() {
   return (
     <>
       {isLoading ? (
-        <div>Loading...</div>
+        <Loader />
       ) : (
         <div className={styles['policy-container']}>
           <section className={styles['policy-section-1']}>
