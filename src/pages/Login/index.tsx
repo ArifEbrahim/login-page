@@ -61,7 +61,7 @@ export default function Login() {
               />
               <Button type="submit">
                 <span>log in</span>
-                <PiSignInBold />
+                <PiSignInBold size={'1.4em'} />
               </Button>
             </form>
           </div>

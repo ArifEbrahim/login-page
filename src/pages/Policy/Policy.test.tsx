@@ -66,7 +66,7 @@ describe('Policy', () => {
       await waitFor(() => {
         expect(axios.get).toHaveBeenCalled()
       })
-      expect(await screen.findByText(/my policy/i)).toBeInTheDocument()
+      expect(await screen.findByText(/my policy./i)).toBeInTheDocument()
       expect(
         await screen.findByRole('button', { name: /sign out/i })
       ).toBeInTheDocument()

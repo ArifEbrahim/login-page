@@ -46,18 +46,20 @@ function Policy() {
       {isLoading ? (
         <div>Loading...</div>
       ) : (
-        <>
-          <div className={styles['policy-container']}>
-            <section className={styles['policy-section']}>
-              <Heading text="My Policy" />
+        <div className={styles['policy-container']}>
+          <section className={styles['policy-section-1']}>
+            <div className={styles['policy-section-2']}>
+              <Heading text="My Policy." />
               <PolicyContent {...policyData} />
-              <Button onClick={handleClick}>
-                <span>Sign out</span>
-                <PiSignOutBold />
-              </Button>
-            </section>
-          </div>
-        </>
+              <div className={styles['button-container']}>
+                <Button onClick={handleClick}>
+                  <span>Sign out</span>
+                  <PiSignOutBold size={'1.4em'} />
+                </Button>
+              </div>
+            </div>
+          </section>
+        </div>
       )}
     </>
   )

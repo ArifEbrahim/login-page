@@ -4,9 +4,17 @@
   border-radius: 8px;
   margin: calc((100vh - 620px) / 2) auto;
   background-color: #fff;
-  border: 1px solid red;
 }
 
-.policy-section{
+.policy-section-1{
   margin: 0 70px;
+}
+
+.policy-section-2{
+  display: flex;
+  flex-direction: column;
+}
+
+.button-container {
+  margin-top: 35px;
 }
