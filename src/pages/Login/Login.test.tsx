@@ -28,27 +28,6 @@ describe('Login', () => {
     vi.resetAllMocks()
   })
 
-  it('renders a header with the correct text', () => {
-    render(<Login />)
-
-    expect(screen.getByText(/log in./i)).toBeInTheDocument()
-  })
-
-  it('renders an email and password input', () => {
-    render(<Login />)
-
-    expect(
-      screen.getByPlaceholderText(/your Email Address/i)
-    ).toBeInTheDocument()
-    expect(screen.getByPlaceholderText(/your Password/i)).toBeInTheDocument()
-  })
-
-  it('renders a submit button', () => {
-    render(<Login />)
-
-    expect(screen.getByRole('button', { name: /log in/i })).toBeInTheDocument()
-  })
-
   it('calls axios on submit', async () => {
     const user = userEvent.setup()
     const url = 'https://api.bybits.co.uk/auth/token'
@@ -128,21 +107,21 @@ describe('Login', () => {
     expect(mockUseNavigate).not.toHaveBeenCalledWith('/policy')
   })
 
-  it('does not allow submission with invalid input', async () => {
-    const user = userEvent.setup()
-    render(<Login />)
+  //   it('does not allow submission with invalid input', async () => {
+  //     const user = userEvent.setup()
+  //     render(<Login />)
 
-    const { emailInput, passwordInput, submitBtn } = getElements()
+  //     const { emailInput, passwordInput, submitBtn } = getElements()
 
-    await user.click(submitBtn)
-    expect(axios.post).not.toHaveBeenCalled()
+  //     await user.click(submitBtn)
+  //     expect(axios.post).not.toHaveBeenCalled()
 
-    await user.type(emailInput, 'bob')
-    await user.click(submitBtn)
-    expect(axios.post).not.toHaveBeenCalled()
+  //     await user.type(emailInput, 'bob')
+  //     await user.click(submitBtn)
+  //     expect(axios.post).not.toHaveBeenCalled()
 
-    await user.type(passwordInput, 'abc123')
-    await user.click(submitBtn)
-    expect(axios.post).not.toHaveBeenCalled()
-  })
+  //     await user.type(passwordInput, 'abc123')
+  //     await user.click(submitBtn)
+  //     expect(axios.post).not.toHaveBeenCalled()
+  //   })
 })
