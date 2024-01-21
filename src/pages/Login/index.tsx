@@ -1,16 +1,11 @@
-import { useState } from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
-import Input from '../../components/Input'
 import styles from './Login.module.css'
 import roadImage from '../../assets/road.png'
-import { PiSignInBold } from 'react-icons/pi'
-import Heading from '../../components/Heading'
-import Button from '../../components/Button'
+import LoginForm from '../../components/LoginForm'
+import { CallAPIProps } from '../../types/Login'
 
 export default function Login() {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
   const navigate = useNavigate()
   const URL = 'https://api.bybits.co.uk/auth/token'
   const CONFIG = {
@@ -19,8 +14,7 @@ export default function Login() {
     }
   }
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
+  const callAPIAndSaveToken = async ({ email, password }: CallAPIProps) => {
     const data = {
       username: email,
       password,
@@ -43,29 +37,7 @@ export default function Login() {
         <div className={styles['image-container']}>
           <img src={roadImage} />
         </div>
-        <div className={styles['form-container']}>
-          <div className={styles['form-content']}>
-            <Heading text="Log in." />
-            <form onSubmit={handleSubmit}>
-              <Input
-                value={email}
-                onChange={setEmail}
-                placeholder="Your Email Address"
-                type="email"
-              />
-              <Input
-                value={password}
-                onChange={setPassword}
-                placeholder="Your Password"
-                type="password"
-              />
-              <Button type="submit">
-                <span>log in</span>
-                <PiSignInBold size={'1.4em'} />
-              </Button>
-            </form>
-          </div>
-        </div>
+        <LoginForm callAPI={callAPIAndSaveToken} />
       </div>
     </>
   )
