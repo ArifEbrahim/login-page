@@ -19,20 +19,28 @@ function LoginForm({ callAPI }: LoginFormProps) {
       <div className={styles['form-content']}>
         <form onSubmit={handleSubmit}>
           <Heading text="Log in." />
-          <input
-            placeholder="your email address"
-            value={email}
-            onChange={e => {
-              setEmail(e.target.value)
-            }}
-          />
-          <input
-            placeholder="your password"
-            value={password}
-            onChange={e => {
-              setPassword(e.target.value)
-            }}
-          />
+          <div className={styles['input-wrapper']}>
+            <div className={styles['input-container']}>
+              <input
+                placeholder="Your Email Address"
+                value={email}
+                onChange={e => {
+                  setEmail(e.target.value)
+                }}
+              />
+            </div>
+          </div>
+          <div className={styles['input-wrapper']}>
+            <div className={styles['input-container']}>
+              <input
+                placeholder="Your Password"
+                value={password}
+                onChange={e => {
+                  setPassword(e.target.value)
+                }}
+              />
+            </div>
+          </div>
           <Button type="submit">
             <span>log in</span>
             <PiSignInBold size={'1.4em'} />
