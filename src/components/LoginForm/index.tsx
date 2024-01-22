@@ -8,11 +8,19 @@ import { LoginFormProps } from '../../types/Login'
 function LoginForm({ callAPI }: LoginFormProps) {
   const [email, setEmail] = useState('')
   const [isEmailValid, setIsEmailValid] = useState(true)
+  const [isEmailTouched, setIsEmailTouched] = useState(false)
   const [password, setPassword] = useState('')
   const [isPasswordValid, setIsPasswordValid] = useState(true)
+  const [isPasswordTouched, setIsPasswordTouched] = useState(false)
+
+  const isEmailInputValid = isEmailValid && isEmailTouched
+  const isPasswordInputValid = isPasswordValid && isPasswordTouched
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
+    setIsEmailTouched(true)
+    setIsPasswordTouched(true)
+
     if (email.trim() === '' && password.trim() === '') {
       setIsEmailValid(false)
       setIsPasswordValid(false)
@@ -29,17 +37,23 @@ function LoginForm({ callAPI }: LoginFormProps) {
     }
   }
 
-  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) =>
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value)
+    if (e.target.value.trim() !== '') setIsEmailValid(true)
+  }
 
   const handleEmailBlur = () => {
+    setIsEmailTouched(true)
     if (email.trim() === '') setIsEmailValid(false)
   }
 
-  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) =>
+  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value)
+    if (e.target.value.trim() !== '') setIsPasswordValid(true)
+  }
 
   const handlePasswordBlur = () => {
+    setIsPasswordTouched(true)
     if (password.trim() === '') setIsPasswordValid(false)
   }
 
