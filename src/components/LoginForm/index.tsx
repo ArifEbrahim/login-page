@@ -18,9 +18,13 @@ function LoginForm({ callAPI }: LoginFormProps) {
       setIsPasswordValid(false)
     } else if (password.trim() === '') {
       setIsPasswordValid(false)
+      setIsEmailValid(true)
     } else if (email.trim() === '') {
       setIsEmailValid(false)
+      setIsPasswordValid(true)
     } else {
+      setIsEmailValid(true)
+      setIsPasswordValid(true)
       callAPI({ email, password })
     }
   }
