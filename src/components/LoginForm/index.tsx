@@ -7,12 +7,29 @@ import { LoginFormProps } from '../../types/Login'
 
 function LoginForm({ callAPI }: LoginFormProps) {
   const [email, setEmail] = useState('')
+  const [isEmailValid, setIsEmailValid] = useState(true)
   const [password, setPassword] = useState('')
+  const [isPasswordValid, setIsPasswordValid] = useState(true)
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    callAPI({ email, password })
+    if (email.trim() === '' && password.trim() === '') {
+      setIsEmailValid(false)
+      setIsPasswordValid(false)
+    } else if (password.trim() === '') {
+      setIsPasswordValid(false)
+    } else if (email.trim() === '') {
+      setIsEmailValid(false)
+    } else {
+      callAPI({ email, password })
+    }
   }
+
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) =>
+    setEmail(e.target.value)
+
+  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) =>
+    setPassword(e.target.value)
 
   return (
     <div className={styles['form-container']}>
@@ -24,10 +41,9 @@ function LoginForm({ callAPI }: LoginFormProps) {
               <input
                 placeholder="Your Email Address"
                 value={email}
-                onChange={e => {
-                  setEmail(e.target.value)
-                }}
+                onChange={handleEmailChange}
               />
+              {!isEmailValid && <p>Email must not be blank</p>}
             </div>
           </div>
           <div className={styles['input-wrapper']}>
@@ -35,10 +51,9 @@ function LoginForm({ callAPI }: LoginFormProps) {
               <input
                 placeholder="Your Password"
                 value={password}
-                onChange={e => {
-                  setPassword(e.target.value)
-                }}
+                onChange={handlePasswordChange}
               />
+              {!isPasswordValid && <p>Password must not be blank</p>}
             </div>
           </div>
           <Button type="submit">

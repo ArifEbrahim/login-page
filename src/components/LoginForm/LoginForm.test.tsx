@@ -42,4 +42,26 @@ describe('LoginForm', () => {
       password: 'abc123'
     })
   })
+
+  describe('Validation', () => {
+    it('displays no errors when initially loaded', () => {
+      render(<LoginForm callAPI={mockCallAPI} />)
+      const emailErrorMsg = screen.queryByText(/Email must not be blank/)
+      const passwordErrorMsg = screen.queryByText(/Password must not be blank/)
+      expect(emailErrorMsg).not.toBeInTheDocument()
+      expect(passwordErrorMsg).not.toBeInTheDocument()
+    })
+
+    it('displays an error when form is submitted but inputs are empty', async () => {
+      const user = userEvent.setup()
+      render(<LoginForm callAPI={mockCallAPI} />)
+      const submitBtn = screen.getByRole('button', { name: /log in/i })
+      await user.click(submitBtn)
+      const emailErrorMsg = screen.getByText(/Email must not be blank/)
+      const passwordErrorMsg = screen.getByText(/Password must not be blank/)
+      expect(emailErrorMsg).toBeInTheDocument()
+      expect(passwordErrorMsg).toBeInTheDocument()
+      expect(mockCallAPI).not.toHaveBeenCalled()
+    })
+  })
 })
