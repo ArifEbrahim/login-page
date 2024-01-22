@@ -28,11 +28,19 @@ function LoginForm({ callAPI }: LoginFormProps) {
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) =>
     setEmail(e.target.value)
 
+  const handleEmailBlur = () => {
+    if (email.trim() === '') setIsEmailValid(false)
+  }
+
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) =>
     setPassword(e.target.value)
 
+  const handlePasswordBlur = () => {
+    if (password.trim() === '') setIsPasswordValid(false)
+  }
+
   return (
-    <div className={styles['form-container']}>
+    <div className={styles['form-container']} data-testid="form-container">
       <div className={styles['form-content']}>
         <form onSubmit={handleSubmit}>
           <Heading text="Log in." />
@@ -42,6 +50,7 @@ function LoginForm({ callAPI }: LoginFormProps) {
                 placeholder="Your Email Address"
                 value={email}
                 onChange={handleEmailChange}
+                onBlur={handleEmailBlur}
               />
               {!isEmailValid && <p>Email must not be blank</p>}
             </div>
@@ -52,6 +61,7 @@ function LoginForm({ callAPI }: LoginFormProps) {
                 placeholder="Your Password"
                 value={password}
                 onChange={handlePasswordChange}
+                onBlur={handlePasswordBlur}
               />
               {!isPasswordValid && <p>Password must not be blank</p>}
             </div>
