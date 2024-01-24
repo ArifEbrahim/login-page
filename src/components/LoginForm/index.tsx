@@ -62,27 +62,29 @@ function LoginForm({ callAPI }: LoginFormProps) {
       <div className={styles['form-content']}>
         <form onSubmit={handleSubmit}>
           <Heading text="Log in." />
-          <div className={styles['input-wrapper']}>
-            <div className={styles['input-container']}>
-              <input
-                placeholder="Your Email Address"
-                value={email}
-                onChange={handleEmailChange}
-                onBlur={handleEmailBlur}
-              />
-              {!isEmailValid && <p>Email must not be blank</p>}
-            </div>
+          <div className={styles['input-container']}>
+            <input
+              placeholder="Your Email Address"
+              value={email}
+              onChange={handleEmailChange}
+              onBlur={handleEmailBlur}
+              className={!isEmailInputValid ? styles['invalid'] : ''}
+            />
           </div>
-          <div className={styles['input-wrapper']}>
-            <div className={styles['input-container']}>
-              <input
-                placeholder="Your Password"
-                value={password}
-                onChange={handlePasswordChange}
-                onBlur={handlePasswordBlur}
-              />
-              {!isPasswordValid && <p>Password must not be blank</p>}
-            </div>
+          <div className={styles['error-text']}>
+            {!isEmailInputValid ? 'Email must not be blank' : ''}
+          </div>
+          <div className={styles['input-container']}>
+            <input
+              placeholder="Your Password"
+              value={password}
+              onChange={handlePasswordChange}
+              onBlur={handlePasswordBlur}
+              className={!isPasswordInputValid ? styles['invalid'] : ''}
+            />
+          </div>
+          <div className={styles['error-text']}>
+            {!isPasswordInputValid ? 'Password must not be blank' : ''}
           </div>
           <Button type="submit">
             <span>log in</span>
