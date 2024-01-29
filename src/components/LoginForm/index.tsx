@@ -1,43 +1,37 @@
-import { useState } from 'react'
 import Heading from '../Heading'
 import Button from '../Button'
 import { PiSignInBold } from 'react-icons/pi'
 import styles from './LoginForm.module.css'
 import { LoginFormProps } from '../../types/Login'
+import { useInput } from '../../hooks/useInput'
 
 function LoginForm({ callAPI }: LoginFormProps) {
-  const [email, setEmail] = useState('')
-  const [isEmailTouched, setIsEmailTouched] = useState(false)
-  const isEmailValid = email.trim() !== ''
-  const isEmailInputInvalid = !isEmailValid && isEmailTouched
+  const validate = (value: string) => value.trim() !== ''
 
-  const [password, setPassword] = useState('')
-  const [isPasswordTouched, setIsPasswordTouched] = useState(false)
-  const isPasswordValid = password.trim() !== ''
-  const isPasswordInputInvalid = !isPasswordValid && isPasswordTouched
+  const {
+    value: email,
+    hasError: emailHasError,
+    isValid: isEmailValid,
+    handleInputChange: handleEmailChange,
+    handleInputBlur: handleEmailBlur,
+    setIsTouched: emailTouched
+  } = useInput(validate)
+
+  const {
+    value: password,
+    hasError: passwordHasError,
+    isValid: isPasswordValid,
+    handleInputChange: handlePasswordChange,
+    handleInputBlur: handlePasswordBlur,
+    setIsTouched: passwordTouched
+  } = useInput(validate)
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    setIsEmailTouched(true)
-    setIsPasswordTouched(true)
+    emailTouched(true)
+    passwordTouched(true)
 
     if (isEmailValid && isPasswordValid) callAPI({ email, password })
-  }
-
-  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEmail(e.target.value)
-  }
-
-  const handleEmailBlur = () => {
-    setIsEmailTouched(true)
-  }
-
-  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPassword(e.target.value)
-  }
-
-  const handlePasswordBlur = () => {
-    setIsPasswordTouched(true)
   }
 
   return (
@@ -51,11 +45,11 @@ function LoginForm({ callAPI }: LoginFormProps) {
               value={email}
               onChange={handleEmailChange}
               onBlur={handleEmailBlur}
-              className={isEmailInputInvalid ? styles['invalid'] : ''}
+              className={emailHasError ? styles['invalid'] : ''}
             />
           </div>
           <div className={styles['error-text']}>
-            {isEmailInputInvalid && 'Email must not be blank'}
+            {emailHasError && 'Email must not be blank'}
           </div>
           <div className={styles['input-container']}>
             <input
@@ -63,11 +57,11 @@ function LoginForm({ callAPI }: LoginFormProps) {
               value={password}
               onChange={handlePasswordChange}
               onBlur={handlePasswordBlur}
-              className={isPasswordInputInvalid ? styles['invalid'] : ''}
+              className={passwordHasError ? styles['invalid'] : ''}
             />
           </div>
           <div className={styles['error-text']}>
-            {isPasswordInputInvalid && 'Password must not be blank'}
+            {passwordHasError && 'Password must not be blank'}
           </div>
           <Button type="submit">
             <span>log in</span>
