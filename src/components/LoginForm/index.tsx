@@ -13,9 +13,6 @@ function LoginForm({ callAPI }: LoginFormProps) {
   const [isPasswordValid, setIsPasswordValid] = useState(true)
   const [isPasswordTouched, setIsPasswordTouched] = useState(false)
 
-  const isEmailInputValid = isEmailValid && isEmailTouched
-  const isPasswordInputValid = isPasswordValid && isPasswordTouched
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     setIsEmailTouched(true)
@@ -68,11 +65,11 @@ function LoginForm({ callAPI }: LoginFormProps) {
               value={email}
               onChange={handleEmailChange}
               onBlur={handleEmailBlur}
-              className={!isEmailInputValid ? styles['invalid'] : ''}
+              className={!isEmailValid ? styles['invalid'] : ''}
             />
           </div>
           <div className={styles['error-text']}>
-            {!isEmailInputValid ? 'Email must not be blank' : ''}
+            {!isEmailValid && 'Email must not be blank'}
           </div>
           <div className={styles['input-container']}>
             <input
@@ -80,11 +77,11 @@ function LoginForm({ callAPI }: LoginFormProps) {
               value={password}
               onChange={handlePasswordChange}
               onBlur={handlePasswordBlur}
-              className={!isPasswordInputValid ? styles['invalid'] : ''}
+              className={!isPasswordValid ? styles['invalid'] : ''}
             />
           </div>
           <div className={styles['error-text']}>
-            {!isPasswordInputValid ? 'Password must not be blank' : ''}
+            {!isPasswordValid && 'Password must not be blank'}
           </div>
           <Button type="submit">
             <span>log in</span>
