@@ -26,12 +26,14 @@ function LoginForm({ callAPI }: LoginFormProps) {
     setIsTouched: passwordTouched
   } = useInput(validate)
 
+  const isFormValid = isEmailValid && isPasswordValid
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     emailTouched(true)
     passwordTouched(true)
 
-    if (isEmailValid && isPasswordValid) callAPI({ email, password })
+    if (isFormValid) callAPI({ email, password })
   }
 
   return (
@@ -63,7 +65,7 @@ function LoginForm({ callAPI }: LoginFormProps) {
           <div className={styles['error-text']}>
             {passwordHasError && 'Password must not be blank'}
           </div>
-          <Button type="submit">
+          <Button type="submit" disabled={!isFormValid}>
             <span>log in</span>
             <PiSignInBold size={'1.4em'} />
           </Button>

@@ -52,16 +52,17 @@ describe('LoginForm', () => {
       expect(passwordErrorMsg).not.toBeInTheDocument()
     })
 
-    it('displays an error when form is submitted but inputs are empty', async () => {
+    it('submit button is disabled whist inputs are invalid', async () => {
       const user = userEvent.setup()
       render(<LoginForm callAPI={mockCallAPI} />)
       const submitBtn = screen.getByRole('button', { name: /log in/i })
-      await user.click(submitBtn)
-      const emailErrorMsg = screen.getByText(/Email must not be blank/)
-      const passwordErrorMsg = screen.getByText(/Password must not be blank/)
-      expect(emailErrorMsg).toBeInTheDocument()
-      expect(passwordErrorMsg).toBeInTheDocument()
-      expect(mockCallAPI).not.toHaveBeenCalled()
+      expect(submitBtn).toBeDisabled()
+      const emailInput = screen.getByPlaceholderText(/your email address/i)
+      await user.type(emailInput, 'test@domain.com')
+      expect(submitBtn).toBeDisabled()
+      const passwordInput = screen.getByPlaceholderText(/your password/i)
+      await user.type(passwordInput, 'abc123')
+      expect(submitBtn).not.toBeDisabled()
     })
 
     it('displays an error if input not valid and user clicks away', async () => {
@@ -82,41 +83,21 @@ describe('LoginForm', () => {
     it('removes error on keypress if input is valid', async () => {
       const user = userEvent.setup()
       render(<LoginForm callAPI={mockCallAPI} />)
-      const submitBtn = screen.getByRole('button', { name: /log in/i })
-      await user.click(submitBtn)
+      const emailInput = screen.getByPlaceholderText(/your email address/i)
+      const passwordInput = screen.getByPlaceholderText(/your password/i)
+      const formContainer = screen.getByTestId(/form-container/i)
+      await user.click(emailInput)
+      await user.click(passwordInput)
+      await userEvent.click(formContainer)
       const emailErrorMsg = screen.getByText(/email must not be blank/i)
       const passwordErrorMsg = screen.getByText(/password must not be blank/i)
       expect(emailErrorMsg).toBeInTheDocument()
       expect(passwordErrorMsg).toBeInTheDocument()
-      const emailInput = screen.getByPlaceholderText(/your email address/i)
       await user.type(emailInput, 'test@domain.com')
       expect(
         screen.queryByText(/email must not be blank/i)
       ).not.toBeInTheDocument()
-      const passwordInput = screen.getByPlaceholderText(/your password/i)
       await user.type(passwordInput, 'abc123')
-      expect(
-        screen.queryByText(/password must not be blank/i)
-      ).not.toBeInTheDocument()
-    })
-
-    it('removes errors following submission of valid input', async () => {
-      const user = userEvent.setup()
-      render(<LoginForm callAPI={mockCallAPI} />)
-      const submitBtn = screen.getByRole('button', { name: /log in/i })
-      await user.click(submitBtn)
-      const emailErrorMsg = screen.getByText(/email must not be blank/i)
-      const passwordErrorMsg = screen.getByText(/password must not be blank/i)
-      expect(emailErrorMsg).toBeInTheDocument()
-      expect(passwordErrorMsg).toBeInTheDocument()
-      const emailInput = screen.getByPlaceholderText(/your email address/i)
-      await user.type(emailInput, 'test@domain.com')
-      const passwordInput = screen.getByPlaceholderText(/your password/i)
-      await user.type(passwordInput, 'abc123')
-      await user.click(submitBtn)
-      expect(
-        screen.queryByText(/email must not be blank/i)
-      ).not.toBeInTheDocument()
       expect(
         screen.queryByText(/password must not be blank/i)
       ).not.toBeInTheDocument()
