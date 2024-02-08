@@ -106,22 +106,4 @@ describe('Login', () => {
     expect(localStorage.setItem).not.toHaveBeenCalled()
     expect(mockUseNavigate).not.toHaveBeenCalledWith('/policy')
   })
-
-  //   it('does not allow submission with invalid input', async () => {
-  //     const user = userEvent.setup()
-  //     render(<Login />)
-
-  //     const { emailInput, passwordInput, submitBtn } = getElements()
-
-  //     await user.click(submitBtn)
-  //     expect(axios.post).not.toHaveBeenCalled()
-
-  //     await user.type(emailInput, 'bob')
-  //     await user.click(submitBtn)
-  //     expect(axios.post).not.toHaveBeenCalled()
-
-  //     await user.type(passwordInput, 'abc123')
-  //     await user.click(submitBtn)
-  //     expect(axios.post).not.toHaveBeenCalled()
-  //   })
 })
