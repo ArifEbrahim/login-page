@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { useEffect, useState } from 'react'
-import PolicyContent from './PolicyContent'
+import PolicyContent from '../../components/PolicyContent'
 import { useNavigate } from 'react-router-dom'
 import TextFormatter from '../../utils/textFormatter'
 import styles from './Policy.module.css'
