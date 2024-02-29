@@ -33,11 +33,11 @@ describe('Policy', () => {
       expect(axios.get).not.toHaveBeenCalled()
     })
 
-    it.skip('displays a loading screen whilst waiting for data', () => {
+    it('displays a loading screen whilst waiting for data', () => {
       Storage.prototype.getItem = vi.fn()
       render(<Policy />)
 
-      expect(screen.getByText(/loading.../i)).toBeInTheDocument()
+      expect(screen.getByTestId('loader-box')).toBeInTheDocument()
     })
   })
 
@@ -78,7 +78,7 @@ describe('Policy', () => {
       render(<Policy />)
 
       await waitFor(() => {
-        expect(screen.queryByText(/loading.../i)).not.toBeInTheDocument()
+        expect(screen.queryByTestId('loader-box')).not.toBeInTheDocument()
       })
       await user.click(screen.getByRole('button', { name: /sign out/i }))
       expect(localStorage.clear).toHaveBeenCalled()
@@ -88,7 +88,7 @@ describe('Policy', () => {
     it('calls PolicyContent with the right props', async () => {
       render(<Policy />)
       await waitFor(() => {
-        expect(screen.queryByText(/loading.../i)).not.toBeInTheDocument()
+        expect(screen.queryByTestId('loader-box')).not.toBeInTheDocument()
       })
       const content = screen.getByTestId('policy-content')
       expect(content).toBeInTheDocument()

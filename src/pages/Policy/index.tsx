@@ -11,7 +11,7 @@ import Loader from '../../components/Loader'
 
 function Policy() {
   const [policyData, setPolicyData] = useState({})
-  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [isLoading, setIsLoading] = useState<boolean>(true)
   const navigate = useNavigate()
 
   const handleClick = () => {
@@ -22,7 +22,6 @@ function Policy() {
   useEffect(() => {
     const getAPIData = async () => {
       try {
-        setIsLoading(true)
         const token = localStorage.getItem('token')
         if (token) {
           const URL = 'https://api.bybits.co.uk/policys/details'
@@ -38,11 +37,10 @@ function Policy() {
             const data = formatter.processData()
             setPolicyData(data)
           })
+          setIsLoading(false)
         }
       } catch (error) {
         console.log(error)
-      } finally {
-        setIsLoading(false)
       }
     }
 
