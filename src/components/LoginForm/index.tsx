@@ -60,6 +60,7 @@ function LoginForm({ callAPI }: LoginFormProps) {
               onChange={handlePasswordChange}
               onBlur={handlePasswordBlur}
               className={passwordHasError ? styles['invalid'] : ''}
+              type="password"
             />
           </div>
           <div className={styles['error-text']}>

@@ -106,4 +106,18 @@ describe('Login', () => {
     expect(localStorage.setItem).not.toHaveBeenCalled()
     expect(mockUseNavigate).not.toHaveBeenCalledWith('/policy')
   })
+
+  it('displays a loading container whilst waiting for API response', async () => {
+    axios.post = vi.fn()
+    const user = userEvent.setup()
+    render(<Login />)
+
+    const { emailInput, passwordInput, submitBtn } = getElements()
+
+    await user.type(emailInput, 'test@domain.com')
+    await user.type(passwordInput, 'abc123')
+    await user.click(submitBtn)
+
+    expect(screen.getByTestId('loader-box')).toBeInTheDocument()
+  })
 })
