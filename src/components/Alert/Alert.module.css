@@ -1,0 +1,15 @@
+.alert-container {
+  border: 2px solid #b40e0e;
+  background-color: #fddddd;
+  width: 100%;
+  min-height: 58px;
+  margin-top: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.alert-container p {
+  color: #b40e0e;
+  font-weight: bold;
+}

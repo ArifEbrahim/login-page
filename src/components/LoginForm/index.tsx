@@ -4,9 +4,11 @@ import { PiSignInBold } from 'react-icons/pi'
 import styles from './LoginForm.module.css'
 import { LoginFormProps } from '../../types/Login'
 import { useInput } from '../../hooks/useInput'
+import Alert from '../Alert'
 
-function LoginForm({ callAPI }: LoginFormProps) {
+function LoginForm({ callAPI, showError }: LoginFormProps) {
   const validate = (value: string) => value.trim() !== ''
+  const ERROR_TEXT = 'Sorry, something went wrong. Please try again.'
 
   const {
     value: email,
@@ -71,6 +73,7 @@ function LoginForm({ callAPI }: LoginFormProps) {
             <PiSignInBold size={'1.4em'} />
           </Button>
         </form>
+        <Alert text={ERROR_TEXT} show={showError} />
       </div>
     </div>
   )
