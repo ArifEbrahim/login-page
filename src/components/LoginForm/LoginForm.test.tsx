@@ -11,12 +11,12 @@ describe('LoginForm', () => {
   })
 
   it('renders a header with the correct text', () => {
-    render(<LoginForm callAPI={mockCallAPI} />)
+    render(<LoginForm callAPI={mockCallAPI} showError={false} />)
     expect(screen.getByText(/log in./i)).toBeInTheDocument()
   })
 
   it('renders an email and password input', () => {
-    render(<LoginForm callAPI={mockCallAPI} />)
+    render(<LoginForm callAPI={mockCallAPI} showError={false} />)
     expect(
       screen.getByPlaceholderText(/your email address/i)
     ).toBeInTheDocument()
@@ -24,13 +24,13 @@ describe('LoginForm', () => {
   })
 
   it('renders a submit button', () => {
-    render(<LoginForm callAPI={mockCallAPI} />)
+    render(<LoginForm callAPI={mockCallAPI} showError={false} />)
     expect(screen.getByRole('button', { name: /log in/i })).toBeInTheDocument()
   })
 
   it('submit button calls a funtion that is passed in', async () => {
     const user = userEvent.setup()
-    render(<LoginForm callAPI={mockCallAPI} />)
+    render(<LoginForm callAPI={mockCallAPI} showError={false} />)
     const emailInput = screen.getByPlaceholderText(/your email address/i)
     const passwordInput = screen.getByPlaceholderText(/your password/i)
     const submitBtn = screen.getByRole('button', { name: /log in/i })
@@ -43,9 +43,16 @@ describe('LoginForm', () => {
     })
   })
 
+  it('displays an error when the showError prop is true', () => {
+    render(<LoginForm callAPI={mockCallAPI} showError={true} />)
+    expect(
+      screen.getByText(/Sorry, something went wrong. Please try again./i)
+    ).toBeInTheDocument()
+  })
+
   describe('Validation', () => {
     it('displays no errors when initially loaded', () => {
-      render(<LoginForm callAPI={mockCallAPI} />)
+      render(<LoginForm callAPI={mockCallAPI} showError={false} />)
       const emailErrorMsg = screen.queryByText(/Email must not be blank/)
       const passwordErrorMsg = screen.queryByText(/Password must not be blank/)
       expect(emailErrorMsg).not.toBeInTheDocument()
@@ -54,7 +61,7 @@ describe('LoginForm', () => {
 
     it('submit button is disabled whist inputs are invalid', async () => {
       const user = userEvent.setup()
-      render(<LoginForm callAPI={mockCallAPI} />)
+      render(<LoginForm callAPI={mockCallAPI} showError={false} />)
       const submitBtn = screen.getByRole('button', { name: /log in/i })
       expect(submitBtn).toBeDisabled()
       const emailInput = screen.getByPlaceholderText(/your email address/i)
@@ -67,7 +74,7 @@ describe('LoginForm', () => {
 
     it('displays an error if input not valid and user clicks away', async () => {
       const user = userEvent.setup()
-      render(<LoginForm callAPI={mockCallAPI} />)
+      render(<LoginForm callAPI={mockCallAPI} showError={false} />)
       const emailInput = screen.getByPlaceholderText(/your email address/i)
       await user.click(emailInput)
       const passwordInput = screen.getByPlaceholderText(/your password/i)
@@ -82,7 +89,7 @@ describe('LoginForm', () => {
 
     it('removes error on keypress if input is valid', async () => {
       const user = userEvent.setup()
-      render(<LoginForm callAPI={mockCallAPI} />)
+      render(<LoginForm callAPI={mockCallAPI} showError={false} />)
       const emailInput = screen.getByPlaceholderText(/your email address/i)
       const passwordInput = screen.getByPlaceholderText(/your password/i)
       const formContainer = screen.getByTestId(/form-container/i)

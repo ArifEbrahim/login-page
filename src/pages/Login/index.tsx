@@ -10,6 +10,7 @@ import { useState } from 'react'
 export default function Login() {
   const navigate = useNavigate()
   const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [isError, setIsError] = useState<boolean>(false)
   const URL = 'https://api.bybits.co.uk/auth/token'
   const CONFIG = {
     headers: {
@@ -31,7 +32,8 @@ export default function Login() {
         navigate('/policy')
       }
     } catch (error) {
-      console.log(error)
+      setIsError(true)
+      setIsLoading(false)
     }
   }
 
@@ -44,7 +46,7 @@ export default function Login() {
           <div className={styles['image-container']}>
             <img src={roadImage} />
           </div>
-          <LoginForm callAPI={callAPIAndSaveToken} />
+          <LoginForm callAPI={callAPIAndSaveToken} showError={isError} />
         </div>
       )}
     </>
