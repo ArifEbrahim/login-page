@@ -5,5 +5,4 @@ export interface CallAPIProps {
 
 export interface LoginFormProps {
   callAPI: ({ email, password }: CallAPIProps) => void
-  showError: boolean
 }

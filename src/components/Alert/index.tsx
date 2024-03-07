@@ -9,7 +9,9 @@ function Alert({ text, show }: AlertProps) {
   return (
     show && (
       <div className={styles['alert-container']}>
-        <p>{text}</p>
+        <div className={styles['alert-content']}>
+          <p>{text}</p>
+        </div>
       </div>
     )
   )

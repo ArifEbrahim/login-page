@@ -4,11 +4,9 @@ import { PiSignInBold } from 'react-icons/pi'
 import styles from './LoginForm.module.css'
 import { LoginFormProps } from '../../types/Login'
 import { useInput } from '../../hooks/useInput'
-import Alert from '../Alert'
 
-function LoginForm({ callAPI, showError }: LoginFormProps) {
+function LoginForm({ callAPI }: LoginFormProps) {
   const validate = (value: string) => value.trim() !== ''
-  const ERROR_TEXT = 'Sorry, something went wrong. Please try again.'
 
   const {
     value: email,
@@ -39,42 +37,39 @@ function LoginForm({ callAPI, showError }: LoginFormProps) {
   }
 
   return (
-    <div className={styles['form-container']} data-testid="form-container">
-      <div className={styles['form-content']}>
-        <form onSubmit={handleSubmit}>
-          <Heading text="Log in." />
-          <div className={styles['input-container']}>
-            <input
-              placeholder="Your Email Address"
-              value={email}
-              onChange={handleEmailChange}
-              onBlur={handleEmailBlur}
-              className={emailHasError ? styles['invalid'] : ''}
-            />
-          </div>
-          <div className={styles['error-text']}>
-            {emailHasError && 'Email must not be blank'}
-          </div>
-          <div className={styles['input-container']}>
-            <input
-              placeholder="Your Password"
-              value={password}
-              onChange={handlePasswordChange}
-              onBlur={handlePasswordBlur}
-              className={passwordHasError ? styles['invalid'] : ''}
-              type="password"
-            />
-          </div>
-          <div className={styles['error-text']}>
-            {passwordHasError && 'Password must not be blank'}
-          </div>
-          <Button type="submit" disabled={!isFormValid}>
-            <span>log in</span>
-            <PiSignInBold size={'1.4em'} />
-          </Button>
-        </form>
-        <Alert text={ERROR_TEXT} show={showError} />
-      </div>
+    <div className={styles['form-content']} data-testid="form-content">
+      <form onSubmit={handleSubmit}>
+        <Heading text="Log in." />
+        <div className={styles['input-container']}>
+          <input
+            placeholder="Your Email Address"
+            value={email}
+            onChange={handleEmailChange}
+            onBlur={handleEmailBlur}
+            className={emailHasError ? styles['invalid'] : ''}
+          />
+        </div>
+        <div className={styles['error-text']}>
+          {emailHasError && 'Email must not be blank'}
+        </div>
+        <div className={styles['input-container']}>
+          <input
+            placeholder="Your Password"
+            value={password}
+            onChange={handlePasswordChange}
+            onBlur={handlePasswordBlur}
+            className={passwordHasError ? styles['invalid'] : ''}
+            type="password"
+          />
+        </div>
+        <div className={styles['error-text']}>
+          {passwordHasError && 'Password must not be blank'}
+        </div>
+        <Button type="submit" disabled={!isFormValid}>
+          <span>log in</span>
+          <PiSignInBold size={'1.4em'} />
+        </Button>
+      </form>
     </div>
   )
 }

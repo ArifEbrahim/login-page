@@ -6,11 +6,13 @@ import LoginForm from '../../components/LoginForm'
 import { CallAPIProps } from '../../types/Login'
 import Loader from '../../components/Loader'
 import { useState } from 'react'
+import Alert from '../../components/Alert'
 
 export default function Login() {
   const navigate = useNavigate()
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [isError, setIsError] = useState<boolean>(false)
+  const ERROR_TEXT = 'Sorry, something went wrong. Please try again.'
   const URL = 'https://api.bybits.co.uk/auth/token'
   const CONFIG = {
     headers: {
@@ -46,7 +48,10 @@ export default function Login() {
           <div className={styles['image-container']}>
             <img src={roadImage} />
           </div>
-          <LoginForm callAPI={callAPIAndSaveToken} showError={isError} />
+          <div className={styles['form-container']}>
+            <LoginForm callAPI={callAPIAndSaveToken} />
+            <Alert text={ERROR_TEXT} show={isError} />
+          </div>
         </div>
       )}
     </>

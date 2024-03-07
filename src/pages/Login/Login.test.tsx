@@ -120,4 +120,21 @@ describe('Login', () => {
 
     expect(screen.getByTestId('loader-box')).toBeInTheDocument()
   })
+
+  it('displays an error when the API request fails', async () => {
+    const error = new Error('test error')
+    axios.post = vi.fn().mockRejectedValue(error)
+    const user = userEvent.setup()
+    render(<Login />)
+
+    const { emailInput, passwordInput, submitBtn } = getElements()
+
+    await user.type(emailInput, 'test@domain.com')
+    await user.type(passwordInput, 'abc123')
+    await user.click(submitBtn)
+
+    expect(
+      screen.getByText('Sorry, something went wrong. Please try again.')
+    ).toBeInTheDocument()
+  })
 })

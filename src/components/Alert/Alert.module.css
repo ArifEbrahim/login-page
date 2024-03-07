@@ -1,4 +1,8 @@
 .alert-container {
+  padding: 0 70px;
+}
+
+.alert-content {
   border: 2px solid #b40e0e;
   background-color: #fddddd;
   width: 100%;
