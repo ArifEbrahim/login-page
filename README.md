@@ -11,8 +11,11 @@ A small React app that allows users to login and see their insurance policy. Thi
 
 Homepage that acts as a login page, inputs have custom built validation to prvent submission of blank data. 
 
+![](./src/assets/validation.gif)
+
 Once valid data is supplied, a loading screen appears whilst waiting for API data. This leads to a policy page showing the users insurance policy.
 
+![](./src/assets/login.gif)
 
 ##### Improvements
 
